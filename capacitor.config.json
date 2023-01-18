@@ -1,0 +1,6 @@
+{
+  "appId": "net.mabasasi.nerumaeni",
+  "appName": "nerumaeni",
+  "webDir": ".output/public",
+  "bundledWebRuntime": false
+}

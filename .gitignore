@@ -1,3 +1,4 @@
+# nnuxt3 gitignore
 node_modules
 *.log*
 .nuxt
@@ -6,3 +7,34 @@ node_modules
 .output
 .env
 dist
+
+# Capacitor gitignore
+.idea/
+dist/
+types/
+.sourcemaps
+xcuserdata/
+node_modules/
+Pods/
+*.map
+.DS_Store
+Podfile.lock
+Build/*
+build/
+Index/
+.*.sw*
+android-template.iml
+!/build/.npmkeep
+lerna-debug.log
+local.properties
+contents.xcworkspacedata
+android-template/.gradle/
+android-template/app/app.iml
+.gradle/
+.settings/
+.project
+.env
+
+# Carthage and Carthage-built binaries
+Carthage
+*.xcframework.zip
