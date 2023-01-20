@@ -6,12 +6,17 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "lint": "eslint src/**/*.{js,ts,vue}",
     "dro": "cap run android"
   },
   "devDependencies": {
     "@capacitor/cli": "^4.6.2",
+    "@nuxt/eslint-config": "^0.1.1",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.32.0",
     "nuxt": "^3.0.0",
-    "nuxt-windicss": "^2.6.0"
+    "nuxt-windicss": "^2.6.0",
+    "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
     "@capacitor/android": "^4.6.2",
