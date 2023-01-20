@@ -16,6 +16,7 @@
     "@capacitor/android": "^4.6.2",
     "@capacitor/core": "^4.6.2",
     "@capacitor/ios": "^4.6.2",
+    "sass": "^1.57.1",
     "vant": "^4.0.8"
   }
 }
