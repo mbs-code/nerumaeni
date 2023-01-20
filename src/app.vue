@@ -1,5 +1,6 @@
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <van-button>asd</van-button>
 </template>
+
+<script setup lang="ts">
+</script>
