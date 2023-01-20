@@ -14,8 +14,12 @@
       </div>
 
       <van-tabbar route>
-        <van-tabbar-item replace icon="home-o" :to="{ name: 'index' }">ホーム</van-tabbar-item>
-        <van-tabbar-item replace icon="setting-o" :to="{ name: 'config' }">設定</van-tabbar-item>
+        <van-tabbar-item replace icon="home-o" :to="{ name: 'index' }">
+          ホーム
+        </van-tabbar-item>
+        <van-tabbar-item replace icon="setting-o" :to="{ name: 'config' }">
+          設定
+        </van-tabbar-item>
       </van-tabbar>
     </div>
   </van-config-provider>

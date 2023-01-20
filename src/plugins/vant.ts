@@ -10,7 +10,7 @@ import {
 
 import 'vant/lib/index.css'
 
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(ConfigProvider)
   nuxtApp.vueApp.use(NavBar)
   nuxtApp.vueApp.use(Tabbar)
