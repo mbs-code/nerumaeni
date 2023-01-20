@@ -1,6 +1,9 @@
 import {
+  Cell,
+  CellGroup,
   ConfigProvider,
   NavBar,
+  Switch,
   Tabbar,
   TabbarItem,
 } from 'vant'
@@ -12,4 +15,7 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.vueApp.use(NavBar)
   nuxtApp.vueApp.use(Tabbar)
   nuxtApp.vueApp.use(TabbarItem)
+  nuxtApp.vueApp.use(Cell)
+  nuxtApp.vueApp.use(CellGroup)
+  nuxtApp.vueApp.use(Switch)
 })

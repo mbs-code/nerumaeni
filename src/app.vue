@@ -4,6 +4,12 @@
       <van-nav-bar :title="title" />
 
       <div class="flex-grow">
+        <van-cell center title="ダークモード">
+          <template #right-icon>
+            <van-switch v-model="isDark" />
+          </template>
+        </van-cell>
+
         <NuxtPage />
       </div>
 
@@ -19,7 +25,8 @@
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
-const theme = ref<'light' | 'dark'>('light')
+const isDark = ref<boolean>(false)
+const theme = computed(() => isDark.value ? 'dark' : 'light')
 </script>
 
 <style lang="scss">
