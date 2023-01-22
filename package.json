@@ -25,6 +25,7 @@
     "@capacitor/ios": "^4.6.2",
     "jeep-sqlite": "^1.7.0",
     "sass": "^1.57.1",
-    "vant": "^4.0.8"
+    "vant": "^4.0.8",
+    "vue-sqlite-hook": "^3.0.3"
   }
 }

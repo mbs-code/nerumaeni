@@ -6366,6 +6366,11 @@ vue-router@^4.1.6:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
+vue-sqlite-hook@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-sqlite-hook/-/vue-sqlite-hook-3.0.3.tgz#5784e5ef287f179a3b81423551073e1561ae1598"
+  integrity sha512-mdE4nnXmhejZW//067HI8LC9LkbMnAFJ8gkA/PlvKF3D/WbMvxiDr6rzyOncJrpbd2poK8VtTnrldI4hTlAnBg==
+
 vue@^3.2.45:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"
