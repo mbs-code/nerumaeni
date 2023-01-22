@@ -49,7 +49,6 @@ const title = computed(() => route.meta.title as string)
 
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
-
 </script>
 
 <style lang="scss">
@@ -66,10 +65,10 @@ body {
 }
 
 .panel {
-    width: auto;
-    margin: 20px;
-    background-color: var(--van-background-2);
-    border-radius: 12px;
-    padding: 16px 32px;
+  width: auto;
+  margin: 20px;
+  background-color: var(--van-background-2);
+  border-radius: 12px;
+  padding: 16px 32px;
 }
 </style>

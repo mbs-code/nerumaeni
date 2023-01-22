@@ -2,6 +2,7 @@ import { CapacitorSQLite, SQLiteConnection } from '@capacitor-community/sqlite'
 import { Capacitor } from '@capacitor/core'
 import { JeepSqlite } from 'jeep-sqlite/dist/components/jeep-sqlite'
 import { InjectionKey } from 'nuxt/dist/app/compat/capi'
+import { BaseEntity } from 'typeorm'
 import { initDataSource } from '~~/src/databases/initDataSource'
 
 customElements.define('jeep-sqlite', JeepSqlite)
@@ -36,6 +37,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     await dataSource.runMigrations()
 
     // アプリに公開
+    BaseEntity.useDataSource(dataSource)
     nuxtApp.provide('db', dataSource)
   } catch (err) {
     // eslint-disable-next-line no-console

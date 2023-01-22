@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('articles')
 export class Article extends BaseEntity {
   @PrimaryGeneratedColumn()
-    id!: number
+  readonly id!: number
 
   @Column({ type: 'text' })
     date!: string
@@ -13,4 +13,10 @@ export class Article extends BaseEntity {
 
   @Column({ type: 'text' })
     text!: string
+
+  @CreateDateColumn({ name: 'created_at', type: 'text', precision: 0 })
+  readonly createdAt!: string
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'text', precision: 0 })
+  readonly updatedAt!: string
 }

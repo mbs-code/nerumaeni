@@ -7,7 +7,9 @@ export class CreateArticleTable1674382037755 implements MigrationInterface {
         "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         "date" TEXT NOT NULL,
         "rate" INTEGER,
-        "TEXT" TEXT
+        "TEXT" TEXT,
+        "created_at" TEXT,
+        "updated_at" TEXT
       );
     `)
   }
