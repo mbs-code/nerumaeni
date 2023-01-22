@@ -10,8 +10,6 @@
           </template>
         </van-cell>
 
-        <div>{{ keepArticle }}</div>
-
         <NuxtPage />
       </div>
 
@@ -19,56 +17,51 @@
         <van-tabbar-item replace icon="home-o" :to="{ name: 'index' }">
           ホーム
         </van-tabbar-item>
+
+        <van-tabbar-item replace icon="column" @click="openArticleEditModal">
+          書き込み
+        </van-tabbar-item>
+
         <van-tabbar-item replace icon="setting-o" :to="{ name: 'config' }">
           設定
         </van-tabbar-item>
       </van-tabbar>
     </div>
+
+    <ArticleEditDialog
+      v-model="showArticleEditModal"
+    />
   </van-config-provider>
 </template>
 
 <script setup lang='ts'>
 import { Article } from '~~/src/databases/entity/article'
 
-const keepArticle = ref<Article>()
-
-onMounted(async () => {
-  const article = new Article()
-  article.date = String(new Date())
-  article.rate = 5
-  article.text = 'asdasd'
-  await article.save()
-
-  // eslint-disable-next-line no-console
-  console.log(article)
-  keepArticle.value = article
-})
-
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
+
+///
+
+const showArticleEditModal = ref<boolean>(false)
+const selectedArticle = ref<Article>()
+const openArticleEditModal = () => {
+  showArticleEditModal.value = true
+}
+
+onMounted(async () => {
+  const a1 = new Article()
+  a1.date = '2022-01-22'
+  a1.rate = 4
+  a1.text = '今日は楽しかった。'
+  await a1.save()
+
+  const a2 = new Article()
+  a2.date = '2022-01-23'
+  a2.rate = 2
+  a2.text = '今日は大変だった。'
+  await a2.save()
+})
 </script>
-
-<style lang="scss">
-body {
-  color: var(--van-text-color);
-  background-color: var(--van-background);
-
-  font-family: "Helvetica Neue",
-    Arial,
-    "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans",
-    Meiryo,
-    sans-serif;
-}
-
-.panel {
-  width: auto;
-  margin: 20px;
-  background-color: var(--van-background-2);
-  border-radius: 12px;
-  padding: 16px 32px;
-}
-</style>
