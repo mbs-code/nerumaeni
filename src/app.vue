@@ -10,6 +10,8 @@
           </template>
         </van-cell>
 
+        <div>{{ keepArticle }}</div>
+
         <NuxtPage />
       </div>
 
@@ -26,11 +28,28 @@
 </template>
 
 <script setup lang='ts'>
+import { Article } from '~~/src/databases/entity/article'
+
+const keepArticle = ref<Article>()
+
+onMounted(async () => {
+  const article = new Article()
+  article.date = String(new Date())
+  article.rate = 5
+  article.text = 'asdasd'
+  await article.save()
+
+  // eslint-disable-next-line no-console
+  console.log(article)
+  keepArticle.value = article
+})
+
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
+
 </script>
 
 <style lang="scss">
