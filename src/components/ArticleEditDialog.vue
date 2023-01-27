@@ -5,7 +5,7 @@
     class="w-full h-full flex flex-col"
   >
     <van-nav-bar
-      title="oooo-yy-xx (Mon)"
+      :title="title"
       left-text="Back"
       left-arrow
       @click-left="onCancel"
@@ -22,7 +22,7 @@
               v-model="form.rate"
               :size="25"
               color="#ffd21e"
-              void-icon="star"
+              void-icon="star-o"
               void-color="#eee"
             />
           </template>
@@ -48,8 +48,13 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from 'luxon'
+import { Article } from '~~/src/databases/entity'
+
 const props = defineProps<{
   modelValue: boolean,
+  article?: Article,
+  dateTime: DateTime,
 }>()
 
 // eslint-disable-next-line func-call-spacing
@@ -60,6 +65,10 @@ const emit = defineEmits<{
 const show = computed({
   get: () => props.modelValue,
   set: (value: boolean) => emit('update:modelValue', value),
+})
+
+const title = computed(() => {
+  return props.dateTime.setLocale('ja').toFormat('yyyy年M月d日 (EEE)')
 })
 
 /// ////////////////////////////////////////////////////////////
@@ -74,8 +83,15 @@ const onCancel = () => {
   show.value = false
 }
 
-const onSave = () => {
-  console.log('save')
+const onSave = async () => {
+  if (!form.text) { return }
+
+  const article = new Article()
+  article.date = props.dateTime.toFormat('yyyy-MM-dd')
+  article.rate = form.rate ?? 0
+  article.text = form.text
+  await article.save()
+
   show.value = false
 }
 </script>

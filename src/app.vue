@@ -18,7 +18,7 @@
           ホーム
         </van-tabbar-item>
 
-        <van-tabbar-item replace icon="column" @click="openArticleEditModal">
+        <van-tabbar-item replace icon="column" @click="openTodayArticle">
           書き込み
         </van-tabbar-item>
 
@@ -30,11 +30,13 @@
 
     <ArticleEditDialog
       v-model="showArticleEditModal"
+      :date-time="selectedDateTime"
     />
   </van-config-provider>
 </template>
 
 <script setup lang='ts'>
+import { DateTime } from 'luxon'
 import { Article } from '~~/src/databases/entity/article'
 
 const route = useRoute()
@@ -47,7 +49,18 @@ const theme = computed(() => isDark.value ? 'dark' : 'light')
 
 const showArticleEditModal = ref<boolean>(false)
 const selectedArticle = ref<Article>()
+const selectedDateTime = ref<DateTime>(DateTime.now())
 const openArticleEditModal = () => {
+  // TODO: 今日の記事を探す
+  // selectedArticle.value = undefined
+  // selectedDateTime.value = DateTime.now().startOf('day')
+  // showArticleEditModal.value = true
+}
+
+const openTodayArticle = () => {
+  // TODO: 今日の記事を探す
+  selectedArticle.value = undefined
+  selectedDateTime.value = DateTime.now().startOf('day')
   showArticleEditModal.value = true
 }
 
