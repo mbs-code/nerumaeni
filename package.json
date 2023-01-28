@@ -24,8 +24,10 @@
     "@capacitor/android": "^4.6.2",
     "@capacitor/core": "^4.6.2",
     "@capacitor/ios": "^4.6.2",
+    "@pinia/nuxt": "^0.4.6",
     "jeep-sqlite": "^1.7.0",
     "luxon": "^3.2.1",
+    "pinia": "^2.0.29",
     "sass": "^1.57.1",
     "typeorm": "^0.3.11",
     "vant": "^4.0.8"

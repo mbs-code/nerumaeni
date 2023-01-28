@@ -60,6 +60,7 @@ const props = defineProps<{
 // eslint-disable-next-line func-call-spacing
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void,
+  (e: 'save', value: Article): void,
 }>()
 
 const show = computed({
@@ -79,6 +80,7 @@ const form = reactive<Partial<{
 }>>({})
 
 const onCancel = () => {
+  // eslint-disable-next-line no-console
   console.log('cancel')
   show.value = false
 }
@@ -91,6 +93,8 @@ const onSave = async () => {
   article.rate = form.rate ?? 0
   article.text = form.text
   await article.save()
+
+  emit('save', article)
 
   show.value = false
 }

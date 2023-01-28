@@ -10,8 +10,6 @@
           </template>
         </van-cell>
 
-        {{ showArticleEditModal }}
-
         <NuxtPage />
       </div>
 
@@ -20,7 +18,7 @@
           ホーム
         </van-tabbar-item>
 
-        <van-tabbar-item icon="column" @click="openTodayArticle">
+        <van-tabbar-item replace icon="column" @click="openTodayArticle">
           書き込み
         </van-tabbar-item>
 
@@ -29,27 +27,18 @@
         </van-tabbar-item>
       </van-tabbar>
     </div>
-
-    <ArticleEditDialog
-      v-model="showArticleEditModal"
-      :date-time="selectedDateTime"
-      @save="articleStore.fetch()"
-    />
   </van-config-provider>
 </template>
 
 <script setup lang='ts'>
 import { DateTime } from 'luxon'
-import { useArticleStore } from '~~/src/composables/useArticleStore'
-import { Article } from '~~/src/databases/entity'
+import { Article } from '~~/src/databases/entity/article'
 
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
-
-const articleStore = useArticleStore()
 
 ///
 
@@ -63,13 +52,10 @@ const openArticleEditModal = () => {
   // showArticleEditModal.value = true
 }
 
-const openTodayArticle = async () => {
-  // 今日の記事を探す
-  const now = DateTime.now().startOf('day')
-  const article = await articleStore.getByDay(now)
-
-  selectedArticle.value = article
-  selectedDateTime.value = now
+const openTodayArticle = () => {
+  // TODO: 今日の記事を探す
+  selectedArticle.value = undefined
+  selectedDateTime.value = DateTime.now().startOf('day')
   showArticleEditModal.value = true
 }
 
@@ -85,7 +71,5 @@ onMounted(async () => {
   a2.rate = 2
   a2.text = '今日は大変だった。'
   await a2.save()
-
-  await articleStore.fetch()
 })
 </script>
