@@ -1,0 +1,19 @@
+body {
+  color: var(--van-text-color);
+  background-color: var(--van-background);
+
+  font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Meiryo,
+    sans-serif;
+}
+
+.panel {
+  width: auto;
+  margin: 20px;
+  background-color: var(--van-background-2);
+  border-radius: 12px;
+  padding: 16px 32px;
+}
