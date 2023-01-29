@@ -5,6 +5,7 @@ import {
   ConfigProvider,
   Field,
   Icon,
+  Locale,
   NavBar,
   Popup,
   Rate,
@@ -12,8 +13,11 @@ import {
   Tabbar,
   TabbarItem,
 } from 'vant'
+import jaJP from 'vant/es/locale/lang/ja-JP'
 
 export default defineNuxtPlugin((nuxtApp) => {
+  Locale.use('ja-JP', jaJP)
+
   nuxtApp.vueApp.use(ConfigProvider)
   nuxtApp.vueApp.use(NavBar)
   nuxtApp.vueApp.use(Tabbar)
