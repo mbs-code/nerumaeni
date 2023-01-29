@@ -1,5 +1,7 @@
 import eslint from 'vite-plugin-eslint'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -17,7 +19,9 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
-      eslint({ fix: true, include: 'src/**/*.{js,ts,vue}' }),
+      isProduction
+        ? undefined
+        : eslint({ fix: true, include: 'src/**/*.{js,ts,vue}' }),
     ],
   },
 })
