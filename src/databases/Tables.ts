@@ -4,4 +4,4 @@ export type Tables = {
   articles: DBArticle
 }
 
-// export type MetaColumns = 'id' | 'created_at' | 'updated_at'
+export type MetaColumns = 'id' | 'created_at' | 'updated_at'
