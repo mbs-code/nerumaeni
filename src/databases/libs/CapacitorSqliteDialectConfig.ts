@@ -1,4 +1,4 @@
 export interface CapacitorSqliteDialectConfig {
-  path: string
+  dbName: string
   debug?: boolean
 }

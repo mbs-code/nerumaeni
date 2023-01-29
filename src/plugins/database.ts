@@ -5,11 +5,11 @@ import { migrations } from '~~/src/databases/Migrations'
 import { Tables } from '~~/src/databases/Tables'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const path = 'sqlite:./test.db'
+  const dbName = 'store'
   const debug = true
 
   const db = new Kysely<Tables>({
-    dialect: new CapacitorSqliteDialect({ path, debug }),
+    dialect: new CapacitorSqliteDialect({ dbName, debug }),
   })
 
   const migrator = new Migrator({

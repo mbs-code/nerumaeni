@@ -9,9 +9,6 @@ import {
 import { JeepSqlite } from 'jeep-sqlite/dist/components/jeep-sqlite'
 import { CapacitorSqliteDialectConfig } from './CapacitorSqliteDialectConfig'
 
-const table = 'storage'
-const readonly = false
-
 export class CapacitorSqliteDriver implements Driver {
   readonly #config: CapacitorSqliteDialectConfig
   readonly #connectionMutex = new ConnectionMutex()
@@ -25,6 +22,7 @@ export class CapacitorSqliteDriver implements Driver {
 
   async init (): Promise<void> {
     // capacitor sqlite の生成
+    const dbName = this.#config.dbName
     const platform = Capacitor.getPlatform()
     const sqlite = new SQLiteConnection(CapacitorSQLite)
 
@@ -40,13 +38,10 @@ export class CapacitorSqliteDriver implements Driver {
 
     // conn の生成
     const ret = await sqlite.checkConnectionsConsistency()
-    const isConn = (await sqlite.isConnection(table, readonly)).result
-    let db = null
-    if (ret.result && isConn) {
-      db = await sqlite.retrieveConnection(table, readonly)
-    } else {
-      db = await sqlite.createConnection(table, false, 'no-encryption', 1, readonly)
-    }
+    const isConn = (await sqlite.isConnection(dbName, false)).result
+    const db = ret.result && isConn
+      ? await sqlite.retrieveConnection(dbName, false)
+      : await sqlite.createConnection(dbName, false, 'no-encryption', 1, false)
 
     await db.open()
 
