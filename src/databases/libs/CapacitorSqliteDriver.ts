@@ -1,4 +1,4 @@
-import { CapacitorSQLite, capSQLiteChanges, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite'
+import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite'
 import { Capacitor } from '@capacitor/core'
 import {
   Driver,
@@ -103,25 +103,27 @@ class CapacitorSqliteConnection implements DatabaseConnection {
       // eslint-disable-next-line no-console
       console.debug(sql, parameters)
     }
-    // eslint-disable-next-line no-console
-    console.log('execute', sql, parameters)
 
-    // TODO: transacton？
-    const res: capSQLiteChanges = await this.#db.executeSet([{
-      statement: sql,
-      values: parameters as any[],
-    }], true)
-    // eslint-disable-next-line no-console
-    console.log('result', res)
+    if (sql.startsWith('select')) {
+      const res = await this.#db.query(sql, parameters as any[])
 
-    // numAffectedRows ?bigint
-    // insertId ?bigint
-    // rows []
+      return {
+        rows: res.values ?? [],
+      }
+    } else {
+      const res = await this.#db.executeSet([{
+        statement: sql,
+        values: parameters as any[],
+      }])
 
-    return {
-      numAffectedRows: res.changes?.changes ? BigInt(res.changes.changes) : undefined,
-      insertId: res.changes?.lastId ? BigInt(res.changes.lastId) : undefined,
-      rows: [],
+      const lastId = res.changes?.lastId
+      const changes = res.changes?.changes
+
+      return {
+        numUpdatedOrDeletedRows: changes ? BigInt(changes) : undefined,
+        insertId: lastId ? BigInt(lastId) : undefined,
+        rows: [],
+      }
     }
   }
 }

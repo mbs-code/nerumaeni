@@ -28,20 +28,41 @@
 </template>
 
 <script setup lang='ts'>
-import { Migrator } from 'kysely'
-// import { Tables } from '~~/src/databases/Tables'
+import { Kysely, Migrator } from 'kysely'
+import { Tables } from '~~/src/databases/Tables'
 
 const value = ref<string>()
 
 onMounted(async () => {
-  // const db: Kysely<Tables> = useNuxtApp().$db
+  const db: Kysely<Tables> = useNuxtApp().$db
   const migrator: Migrator = useNuxtApp().$migrator
 
   const res = await migrator.migrateToLatest()
-  value.value = JSON.stringify(res)
+  value.value += JSON.stringify(res) + ' >>> '
 
-  // const res = await db.introspection.getTables()
-  // console.log(res)
+  const { insertId } = await db
+    .insertInto('articles')
+    .values({
+      text: 'テスト追加',
+    })
+    .executeTakeFirst()
+
+  console.log('insertId', insertId)
+
+  const { insertId: s } = await db
+    .insertInto('articles')
+    .values({
+      text: 'テスト追加',
+    })
+    .executeTakeFirst()
+  console.log('insertId', s)
+
+  const articles = await db
+    .selectFrom('articles')
+    .selectAll()
+    .execute()
+
+  value.value += JSON.stringify(articles) + ' >>> '
 })
 
 const route = useRoute()
