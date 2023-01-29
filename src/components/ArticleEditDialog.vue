@@ -31,9 +31,10 @@
 
       <van-cell-group inset class="flex-grow">
         <van-field
+          ref="textareaRef"
           v-model="form.text"
           type="textarea"
-          class="article-field"
+          class="article-text"
           placeholder="日記を記入！"
         />
       </van-cell-group>
@@ -49,7 +50,8 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon'
-import { Article } from '~~/src/databases/models/Article'
+import { ArticleAPI } from '~~/src/apis/ArticleAPI'
+import { Article, FormArticle } from '~~/src/databases/models/Article'
 
 const props = defineProps<{
   modelValue: boolean,
@@ -72,12 +74,26 @@ const title = computed(() => {
   return props.dateTime.setLocale('ja').toFormat('yyyy年M月d日 (EEE)')
 })
 
+watch(() => show.value, (val) => {
+  if (val) { onInit() }
+})
+
 /// ////////////////////////////////////////////////////////////
 
-const form = reactive<Partial<{
-  rate: number
-  text: string
-}>>({})
+const form = reactive<Partial<FormArticle>>({})
+const textareaRef = ref()
+
+const onInit = () => {
+  form.date = props.article?.date ?? props.dateTime
+  form.rate = props.article?.rate ?? 0
+  form.text = props.article?.text ?? ''
+
+  // textarea スクロール
+  nextTick(() => {
+    const scroll = textareaRef.value?.$el?.querySelector('textarea')
+    if (scroll) { scroll.scrollTop = 0 }
+  })
+}
 
 const onCancel = () => {
   // eslint-disable-next-line no-console
@@ -85,23 +101,19 @@ const onCancel = () => {
   show.value = false
 }
 
-const onSave = () => {
-  if (!form.text) { return }
+const onSave = async () => {
+  const article = props.article?.id
+    ? await ArticleAPI.update(props.article.id, form)
+    : await ArticleAPI.create(form)
 
-  // const article = new Article()
-  // article.date = props.dateTime.toFormat('yyyy-MM-dd')
-  // article.rate = form.rate ?? 0
-  // article.text = form.text
-  // await article.save()
-
-  // emit('save', article)
+  emit('save', article)
 
   show.value = false
 }
 </script>
 
 <style lang="scss">
-.article-field {
+.article-text {
   height: 100%;
   .van-field__body {
     height: 100%;

@@ -13,6 +13,18 @@ export class ArticleAPI {
     return items.map(item => formatArticle(item))
   }
 
+  public static async getByDate (dateTime: DateTime): Promise<Article | undefined> {
+    const { db } = useDatabase()
+    const ymd = dateTime.toFormat('yyyy-MM-dd')
+
+    const item = await db
+      .selectFrom('articles')
+      .selectAll()
+      .where('date', '=', ymd)
+      .executeTakeFirst()
+
+    return item ? formatArticle(item) : undefined
+  }
   /// ////////////////////////////////////////
 
   public static async get (id: number): Promise<Article> {

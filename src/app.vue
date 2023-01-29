@@ -10,8 +10,6 @@
           </template>
         </van-cell>
 
-        {{ showArticleEditModal }}
-
         <NuxtPage />
       </div>
 
@@ -32,6 +30,7 @@
 
     <ArticleEditDialog
       v-model="showArticleEditModal"
+      :article="selectedArticle"
       :date-time="selectedDateTime"
       @save="articleStore.fetch()"
     />
@@ -50,13 +49,23 @@ const title = computed(() => route.meta.title as string)
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
 
-const articleStore = useArticleStore()
+/// ////////////////////////////////////////////////////////////
 
-///
+const articleStore = useArticleStore()
+const database = useDatabase()
+
+onMounted(async () => {
+  await database.migrateToLatest()
+
+  await articleStore.fetch()
+})
+
+/// ////////////////////////////////////////////////////////////
 
 const showArticleEditModal = ref<boolean>(false)
 const selectedArticle = ref<Article>()
 const selectedDateTime = ref<DateTime>(DateTime.now())
+
 const openArticleEditModal = () => {
   // TODO: 今日の記事を探す
   // selectedArticle.value = undefined
@@ -67,45 +76,10 @@ const openArticleEditModal = () => {
 const openTodayArticle = async () => {
   // 今日の記事を探す
   const now = DateTime.now().startOf('day')
-  const article = await articleStore.getByDay(now)
+  const article = await ArticleAPI.getByDate(now)
 
   selectedArticle.value = article
   selectedDateTime.value = now
   showArticleEditModal.value = true
 }
-
-const database = useDatabase()
-
-const articles = ref<Article[]>([])
-
-onMounted(async () => {
-  console.log('mounted')
-
-  await database.dbWipe()
-
-  await database.migrateToLatest()
-
-  const a1 = await ArticleAPI.create({
-    date: DateTime.local(2023, 1, 25),
-    rate: 4,
-    text: '１つ目',
-  })
-  console.log(a1)
-
-  articles.value = await ArticleAPI.getAll()
-
-  // const a1 = new Article()
-  // a1.date = '2022-01-22'
-  // a1.rate = 4
-  // a1.text = '今日は楽しかった。'
-  // await a1.save()
-
-  // const a2 = new Article()
-  // a2.date = '2022-01-23'
-  // a2.rate = 2
-  // a2.text = '今日は大変だった。'
-  // await a2.save()
-
-  await articleStore.fetch()
-})
 </script>

@@ -19,11 +19,11 @@ export type Article = {
   updatedAt: DateTime
 }
 
-export type FormArticle = {
+export type FormArticle = Partial<{
   date: DateTime
   rate: number
   text: string
-}
+}>
 
 export const formatArticle = (db: DBArticle): Article => {
   return {
@@ -43,17 +43,12 @@ export const parseArticle = (form: FormArticle): Omit<DBArticle, MetaColumns> =>
   // const icon = form.icon?.trim()
   // if (icon && icon.length >= 3) { throw new Error('アイコン名は2文字まで入力可能です。') }
 
-  // // 名前重複確認
-  // const { count } = await db
-  //   .selectFrom('projects')
-  //   .select([db.fn.count('id').as('count')])
-  //   .where('name', '=', parse.name)
-  //   .executeTakeFirst() as { count: bigint }
-  // if (count > 0) { throw new Error('この名称は既に使われています。') }
+  if (!form.date) { throw new Error('valid error') }
+  if (!form.text || !form.text.trim()) { throw new Error('valid error') }
 
   return {
-    date: form.date.toISODate(),
-    rate: form.rate,
+    date: form.date.toFormat('yyyy-MM-dd'),
+    rate: form.rate ?? 0,
     text: form.text,
   }
 }
