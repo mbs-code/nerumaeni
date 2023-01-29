@@ -26,6 +26,7 @@
     "@capacitor/ios": "^4.6.2",
     "@pinia/nuxt": "^0.4.6",
     "jeep-sqlite": "^1.7.0",
+    "kysely": "^0.23.4",
     "luxon": "^3.2.1",
     "pinia": "^2.0.29",
     "sass": "^1.57.1",

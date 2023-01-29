@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon'
-import { Article } from '~~/src/databases/entity'
+import { Article } from '~~/src/databases/models/Article'
 
 const props = defineProps<{
   modelValue: boolean,
@@ -85,16 +85,16 @@ const onCancel = () => {
   show.value = false
 }
 
-const onSave = async () => {
+const onSave = () => {
   if (!form.text) { return }
 
-  const article = new Article()
-  article.date = props.dateTime.toFormat('yyyy-MM-dd')
-  article.rate = form.rate ?? 0
-  article.text = form.text
-  await article.save()
+  // const article = new Article()
+  // article.date = props.dateTime.toFormat('yyyy-MM-dd')
+  // article.rate = form.rate ?? 0
+  // article.text = form.text
+  // await article.save()
 
-  emit('save', article)
+  // emit('save', article)
 
   show.value = false
 }

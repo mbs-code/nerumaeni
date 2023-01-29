@@ -40,8 +40,9 @@
 
 <script setup lang='ts'>
 import { DateTime } from 'luxon'
+import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
-import { Article } from '~~/src/databases/entity'
+import { Article } from '~~/src/databases/models/Article'
 
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
@@ -73,18 +74,35 @@ const openTodayArticle = async () => {
   showArticleEditModal.value = true
 }
 
-onMounted(async () => {
-  const a1 = new Article()
-  a1.date = '2022-01-22'
-  a1.rate = 4
-  a1.text = '今日は楽しかった。'
-  await a1.save()
+const database = useDatabase()
 
-  const a2 = new Article()
-  a2.date = '2022-01-23'
-  a2.rate = 2
-  a2.text = '今日は大変だった。'
-  await a2.save()
+onMounted(async () => {
+  console.log('mounted')
+
+  await database.migrateToLatest()
+
+  const a1 = await ArticleAPI.create({
+    date: DateTime.local(2023, 1, 25),
+    rate: 4,
+    text: '１つ目',
+  })
+  console.log(a1)
+
+  const articles = await ArticleAPI.getAll()
+
+  console.log(articles)
+
+  // const a1 = new Article()
+  // a1.date = '2022-01-22'
+  // a1.rate = 4
+  // a1.text = '今日は楽しかった。'
+  // await a1.save()
+
+  // const a2 = new Article()
+  // a2.date = '2022-01-23'
+  // a2.rate = 2
+  // a2.text = '今日は大変だった。'
+  // await a2.save()
 
   await articleStore.fetch()
 })
