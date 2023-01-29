@@ -9,6 +9,7 @@ rules:
   comma-dangle:
   - 'warn'
   - 'always-multiline'
+  no-console: 'warn'
   no-unused-vars: 'warn'
   '@typescript-eslint/no-unused-vars': 'off'
   vue/no-unused-vars: 'off'
