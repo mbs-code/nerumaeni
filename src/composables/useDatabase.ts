@@ -13,16 +13,12 @@ export const useDatabase = () => {
   }
 
   const dbWipe = async () => {
-    // 全テーブルの削除
     const tables = await db.introspection.getTables()
     for (const table of tables) {
       await db.schema.dropTable(table.name).ifExists().execute()
     }
     await db.schema.dropTable('kysely_migration').ifExists().execute()
     await db.schema.dropTable('kysely_migration_lock').ifExists().execute()
-
-    // マイグレーション
-    await migrator.migrateToLatest()
   }
 
   return {

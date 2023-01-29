@@ -76,8 +76,12 @@ const openTodayArticle = async () => {
 
 const database = useDatabase()
 
+const articles = ref<Article[]>([])
+
 onMounted(async () => {
   console.log('mounted')
+
+  await database.dbWipe()
 
   await database.migrateToLatest()
 
@@ -88,9 +92,7 @@ onMounted(async () => {
   })
   console.log(a1)
 
-  const articles = await ArticleAPI.getAll()
-
-  console.log(articles)
+  articles.value = await ArticleAPI.getAll()
 
   // const a1 = new Article()
   // a1.date = '2022-01-22'
