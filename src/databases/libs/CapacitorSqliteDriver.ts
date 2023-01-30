@@ -115,7 +115,7 @@ class CapacitorSqliteConnection implements DatabaseConnection {
       const changes = res.changes?.changes
 
       return {
-        numUpdatedOrDeletedRows: changes ? BigInt(changes) : undefined,
+        numAffectedRows: changes ? BigInt(changes) : undefined,
         insertId: lastId ? BigInt(lastId) : undefined,
         rows: [],
       }
