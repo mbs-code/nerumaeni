@@ -8,6 +8,7 @@ export class ArticleAPI {
     const items = await db
       .selectFrom('articles')
       .selectAll()
+      .orderBy('date', 'asc')
       .execute()
 
     return items.map(item => formatArticle(item))
