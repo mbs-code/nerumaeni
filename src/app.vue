@@ -1,7 +1,14 @@
 <template>
   <van-config-provider :theme="theme">
     <div class="h-screen flex flex-col van-doc-theme-dark">
-      <van-nav-bar :title="title" @click="openCalendarDialog" />
+      <van-nav-bar
+        :title="title"
+        @click-right="openCalendarDialog"
+      >
+        <template #right>
+          <van-icon name="notes-o" />
+        </template>
+      </van-nav-bar>
 
       <div class="flex-grow">
         <!-- TODO: ダークモード対応 -->
