@@ -4,17 +4,23 @@
       <van-nav-bar :title="title" />
 
       <div class="flex-grow">
-        <van-cell center title="ダークモード">
+        <!-- TODO: ダークモード対応 -->
+        <!-- <van-cell center title="ダークモード">
           <template #right-icon>
             <van-switch v-model="isDark" />
           </template>
-        </van-cell>
+        </van-cell> -->
 
-        <NuxtPage />
+        <div
+          class="overflow-y-scroll overflow-x-clip border-y-1"
+          :style="{ height: 'calc(100vh - 96px)' }"
+        >
+          <NuxtPage />
+        </div>
       </div>
 
       <van-tabbar route>
-        <van-tabbar-item replace icon="home-o" :to="{ name: 'index' }">
+        <van-tabbar-item replace icon="notes-o" :to="{ name: 'index' }">
           ホーム
         </van-tabbar-item>
 
@@ -42,6 +48,7 @@ import { DateTime } from 'luxon'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
 import { Article } from '~~/src/databases/models/Article'
+import { testSeeder } from '~~/src/databases/seeders/TestSeeder'
 
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
@@ -56,6 +63,7 @@ const database = useDatabase()
 
 onMounted(async () => {
   await database.migrateToLatest()
+  await testSeeder()
 
   await articleStore.fetch()
 })

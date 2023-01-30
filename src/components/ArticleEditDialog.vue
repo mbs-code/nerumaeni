@@ -18,12 +18,9 @@
       <van-cell-group inset>
         <van-field label="今の気分">
           <template #input>
-            <van-rate
+            <AppRate
               v-model="form.rate"
               :size="25"
-              color="#ffd21e"
-              void-icon="star-o"
-              void-color="#eee"
             />
           </template>
         </van-field>
