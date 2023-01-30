@@ -37,7 +37,7 @@ import { DateTime } from 'luxon'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
 import { Article } from '~~/src/databases/models/Article'
 
-definePageMeta({ title: 'ホーム' })
+definePageMeta({ title: '日記' })
 
 const articleStore = useArticleStore()
 

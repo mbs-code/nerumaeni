@@ -17,7 +17,7 @@
     </van-nav-bar>
 
     <div
-      class="flex-grow px-2 py-4 flex flex-col gap-4"
+      class="border-t-1 flex-grow px-2 py-4 flex flex-col gap-4"
       :style="{ background: 'var(--van-background)' }"
     >
       <van-cell-group inset>

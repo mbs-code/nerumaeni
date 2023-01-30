@@ -12,7 +12,7 @@
         </van-cell> -->
 
         <div
-          class="overflow-y-scroll overflow-x-clip border-y-1"
+          class="border-y-1 overflow-y-scroll overflow-x-clip"
           :style="{ height: 'calc(100vh - 96px)' }"
         >
           <NuxtPage />
