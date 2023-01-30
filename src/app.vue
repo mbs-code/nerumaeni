@@ -1,7 +1,7 @@
 <template>
   <van-config-provider :theme="theme">
     <div class="h-screen flex flex-col van-doc-theme-dark">
-      <van-nav-bar :title="title" />
+      <van-nav-bar :title="title" @click="openCalendarDialog" />
 
       <div class="flex-grow">
         <!-- TODO: ダークモード対応 -->
@@ -33,6 +33,11 @@
         </van-tabbar-item>
       </van-tabbar>
     </div>
+
+    <CalendarDrawer
+      v-model="showCalendarDrawer"
+      @input="onSelectedDate"
+    />
 
     <ArticleEditDialog
       v-model="showArticleEditDialog"
@@ -83,5 +88,17 @@ const openTodayArticleDialog = async () => {
   selectedArticle.value = article
   selectedDateTime.value = now
   showArticleEditDialog.value = true
+}
+
+/// ////////////////////////////////////////////////////////////
+
+const showCalendarDrawer = ref<boolean>(false)
+
+const openCalendarDialog = () => {
+  showCalendarDrawer.value = true
+}
+
+const onSelectedDate = (date: DateTime) => {
+  console.log(date)
 }
 </script>
