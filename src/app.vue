@@ -98,7 +98,18 @@ const openCalendarDialog = () => {
   showCalendarDrawer.value = true
 }
 
-const onSelectedDate = (date: DateTime) => {
-  console.log(date)
+const onSelectedDate = async (date: DateTime) => {
+  // TODO: 対象の日に日記が無いなら編集、あるならそこを中心にリスト表示
+
+  // 対象の日の記事を探す
+  const target = date.startOf('day')
+  const article = await ArticleAPI.getByDate(target)
+
+  // 対象の日に日記がなければ新規作成
+  if (!article) {
+    selectedArticle.value = article
+    selectedDateTime.value = target
+    showArticleEditDialog.value = true
+  }
 }
 </script>
