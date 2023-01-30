@@ -2271,9 +2271,9 @@ deep-is@^0.1.3:
   integrity sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==
 
 deepmerge@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
-  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.0.tgz#65491893ec47756d44719ae520e0e2609233b59b"
+  integrity sha512-z2wJZXrmeHdvYJp/Ux55wIjqo81G5Bp4c+oELTW+7ar6SogWHajt5a9gO3s3IDaGSAXjDk0vlQKN3rms8ab3og==
 
 defaults@^1.0.3:
   version "1.0.4"
@@ -4598,7 +4598,7 @@ nuxt-windicss@^2.6.0:
     windicss-analysis "^0.3.5"
     windicss-webpack-plugin "^1.7.7"
 
-nuxt@^3.0.0:
+nuxt@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.1.1.tgz#c8acb7dadb006aa6c4ada6129e7dcacddbfad7a9"
   integrity sha512-GVdmV88lR01OX0slxTPyTzwQkge7fxNREkx2QW0Lo66fb6aHcJlRXzFMBCOTjas+Ncng6AalIyIiPREEteGKSg==
@@ -6152,9 +6152,9 @@ unimport@^1.0.1:
     unplugin "^1.0.1"
 
 unimport@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/unimport/-/unimport-2.0.1.tgz#2a0e2bf90416d74d2287f64b3e00acd49b1781d6"
-  integrity sha512-hMeDspGrEcocahicTr0AQYUGes24FvJtOxk9QEjeEOGv+n1EdpsDiT6z8t209PWhemPg0T5w/ooTVhup2GdrFA==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/unimport/-/unimport-2.1.0.tgz#d1c5bfe29f8ef1625816e2f6f3250fa2c1ec28c1"
+  integrity sha512-GDVIxATluUquX8EqelT6DtnmnZaXGID1jsO9IXwlnxb0OIEqKAxTOnTlnGmHbseoGTh+ZC9kcNDaO18HYQj9KA==
   dependencies:
     "@rollup/pluginutils" "^5.0.2"
     escape-string-regexp "^5.0.0"
