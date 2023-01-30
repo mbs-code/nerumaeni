@@ -39,6 +39,7 @@
       :article="selectedArticle"
       :date-time="selectedDateTime"
       @save="articleStore.fetch()"
+      @delete="articleStore.fetch()"
     />
   </van-config-provider>
 </template>

@@ -27,6 +27,7 @@
       :article="selectedArticle"
       :date-time="selectedDateTime"
       @save="articleStore.fetch()"
+      @delete="articleStore.fetch()"
     />
   </div>
 </template>

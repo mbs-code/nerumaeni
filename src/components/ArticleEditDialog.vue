@@ -9,7 +9,12 @@
       left-text="Back"
       left-arrow
       @click-left="onCancel"
-    />
+      @click-right="isEdit && onDelete()"
+    >
+      <template #right>
+        <van-icon v-if="isEdit" name="delete-o" color="red" />
+      </template>
+    </van-nav-bar>
 
     <div
       class="flex-grow px-2 py-4 flex flex-col gap-4"
@@ -47,6 +52,7 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon'
+import { showConfirmDialog } from 'vant'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { Article, FormArticle } from '~~/src/databases/models/Article'
 
@@ -60,6 +66,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void,
   (e: 'save', value: Article): void,
+  (e: 'delete', value: Article): void,
 }>()
 
 const show = computed({
@@ -80,6 +87,8 @@ watch(() => show.value, (val) => {
 const form = reactive<Partial<FormArticle>>({})
 const textareaRef = ref()
 
+const isEdit = computed(() => Boolean(props.article?.id))
+
 const onInit = () => {
   form.date = props.article?.date ?? props.dateTime
   form.rate = props.article?.rate ?? 0
@@ -93,13 +102,28 @@ const onInit = () => {
 }
 
 const onSave = async () => {
-  const article = props.article?.id
-    ? await ArticleAPI.update(props.article.id, form)
+  const article = isEdit.value
+    ? await ArticleAPI.update(props.article!.id, form)
     : await ArticleAPI.create(form)
 
   emit('save', article)
-
   show.value = false
+}
+
+const onDelete = () => {
+  showConfirmDialog({
+    title: '日記の削除',
+    message: `「${title.value}」\nの日記を削除しますか？`,
+    confirmButtonText: '削除',
+    confirmButtonColor: 'red',
+  }).then(async () => {
+    if (props.article) {
+      await ArticleAPI.remove(props.article.id)
+
+      emit('delete', props.article)
+      show.value = false
+    }
+  })
 }
 
 const onCancel = () => {
