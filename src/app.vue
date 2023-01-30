@@ -24,7 +24,7 @@
           ホーム
         </van-tabbar-item>
 
-        <van-tabbar-item icon="column" @click="openTodayArticle">
+        <van-tabbar-item icon="column" @click="openTodayArticleDialog">
           書き込み
         </van-tabbar-item>
 
@@ -35,7 +35,7 @@
     </div>
 
     <ArticleEditDialog
-      v-model="showArticleEditModal"
+      v-model="showArticleEditDialog"
       :article="selectedArticle"
       :date-time="selectedDateTime"
       @save="articleStore.fetch()"
@@ -70,24 +70,17 @@ onMounted(async () => {
 
 /// ////////////////////////////////////////////////////////////
 
-const showArticleEditModal = ref<boolean>(false)
+const showArticleEditDialog = ref<boolean>(false)
 const selectedArticle = ref<Article>()
 const selectedDateTime = ref<DateTime>(DateTime.now())
 
-const openArticleEditModal = () => {
-  // TODO: 今日の記事を探す
-  // selectedArticle.value = undefined
-  // selectedDateTime.value = DateTime.now().startOf('day')
-  // showArticleEditModal.value = true
-}
-
-const openTodayArticle = async () => {
+const openTodayArticleDialog = async () => {
   // 今日の記事を探す
   const now = DateTime.now().startOf('day')
   const article = await ArticleAPI.getByDate(now)
 
   selectedArticle.value = article
   selectedDateTime.value = now
-  showArticleEditModal.value = true
+  showArticleEditDialog.value = true
 }
 </script>

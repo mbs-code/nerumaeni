@@ -92,12 +92,6 @@ const onInit = () => {
   })
 }
 
-const onCancel = () => {
-  // eslint-disable-next-line no-console
-  console.log('cancel')
-  show.value = false
-}
-
 const onSave = async () => {
   const article = props.article?.id
     ? await ArticleAPI.update(props.article.id, form)
@@ -105,6 +99,10 @@ const onSave = async () => {
 
   emit('save', article)
 
+  show.value = false
+}
+
+const onCancel = () => {
   show.value = false
 }
 </script>
