@@ -21,7 +21,7 @@
 
       <van-tabbar route>
         <van-tabbar-item replace icon="notes-o" :to="{ name: 'index' }">
-          ホーム
+          日記
         </van-tabbar-item>
 
         <van-tabbar-item icon="column" @click="openTodayArticleDialog">
