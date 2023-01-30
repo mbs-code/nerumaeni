@@ -10,9 +10,9 @@ export const testSeeder = async () => {
       'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas\n',
   })
 
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 20; i++) {
     await ArticleAPI.create({
-      date: DateTime.local(2022, 12, 1).plus({ day: 4 * i }),
+      date: DateTime.local(2022, 12, 1).plus({ day: 1 * i }),
       rate: i % 5,
       text: 'ダミーテキスト\n' +
         'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas\n' +

@@ -18,12 +18,7 @@
           </template>
         </van-cell> -->
 
-        <div
-          class="border-y-1 overflow-y-scroll overflow-x-clip"
-          :style="{ height: 'calc(100vh - 96px)' }"
-        >
-          <NuxtPage />
-        </div>
+        <NuxtPage />
       </div>
 
       <van-tabbar route>
@@ -50,8 +45,8 @@
       v-model="showArticleEditDialog"
       :article="selectedArticle"
       :date-time="selectedDateTime"
-      @save="articleStore.fetch()"
-      @delete="articleStore.fetch()"
+      @save="articleStore.onFetchDate($event.date)"
+      @delete="articleStore.onFetchDate($event.date)"
     />
   </van-config-provider>
 </template>
@@ -61,7 +56,6 @@ import { DateTime } from 'luxon'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
 import { Article } from '~~/src/databases/models/Article'
-import { testSeeder } from '~~/src/databases/seeders/TestSeeder'
 
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
@@ -69,17 +63,7 @@ const title = computed(() => route.meta.title as string)
 const isDark = ref<boolean>(false)
 const theme = computed(() => isDark.value ? 'dark' : 'light')
 
-/// ////////////////////////////////////////////////////////////
-
 const articleStore = useArticleStore()
-const database = useDatabase()
-
-onMounted(async () => {
-  await database.migrateToLatest()
-  await testSeeder()
-
-  await articleStore.fetch()
-})
 
 /// ////////////////////////////////////////////////////////////
 
@@ -106,14 +90,14 @@ const openCalendarDialog = () => {
 }
 
 const onSelectedDate = async (date: DateTime) => {
-  // TODO: 対象の日に日記が無いなら編集、あるならそこを中心にリスト表示
-
   // 対象の日の記事を探す
   const target = date.startOf('day')
   const article = await ArticleAPI.getByDate(target)
 
-  // 対象の日に日記がなければ新規作成
-  if (!article) {
+  // 対象の日があればリスト表示, なければ新規作成
+  if (article) {
+    articleStore.onFetchDate(date)
+  } else {
     selectedArticle.value = article
     selectedDateTime.value = target
     showArticleEditDialog.value = true

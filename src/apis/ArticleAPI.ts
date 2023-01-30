@@ -1,14 +1,25 @@
 import { DateTime } from 'luxon'
-import { Article, FormArticle, formatArticle, parseArticle } from '~~/src/databases/models/Article'
+import { Article, FormArticle, formatArticle, parseArticle, SearchArticle } from '~~/src/databases/models/Article'
 
 export class ArticleAPI {
-  public static async getAll (): Promise<Article[]> {
+  public static async getAll (params?: SearchArticle): Promise<Article[]> {
     const { db } = useDatabase()
 
     const items = await db
       .selectFrom('articles')
       .selectAll()
-      .orderBy('date', 'asc')
+      .$if(Boolean(params?.before), (qb) => {
+        const date = params!.before!.toFormat('yyyy-MM-dd')
+        const ope = params?.canSame ? '<=' : '<'
+        return qb.where('date', ope, date)
+      })
+      .$if(Boolean(params?.after), (qb) => {
+        const date = params!.after!.toFormat('yyyy-MM-dd')
+        const ope = params?.canSame ? '>=' : '>'
+        return qb.where('date', ope, date)
+      })
+      .$if(Boolean(params?.limit), qb => qb.limit(params!.limit ?? 0))
+      .orderBy('date', params?.order ?? 'asc')
       .execute()
 
     return items.map(item => formatArticle(item))

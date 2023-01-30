@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div ref="infiniteRef" class="main">
     <template v-for="(article, _) of articleStore.articles" :key="_">
-      <div class="panel" @dblclick="openArticleDialog(article)">
+      <div
+        :name="article.date.toFormat('yyyyMMdd')"
+        class="panel"
+        @dblclick="openArticleDialog(article)"
+      >
         <div class="flex items-center justify-between flex-wrap gap-1">
           <h2 class="text-lg font-bold">
             {{ article.date.setLocale('ja-JP').toFormat('M月d日 (EEE)') }}
@@ -26,8 +30,8 @@
       v-model="showArticleEditModal"
       :article="selectedArticle"
       :date-time="selectedDateTime"
-      @save="articleStore.fetch()"
-      @delete="articleStore.fetch()"
+      @save="articleStore.onFetchDate($event.date)"
+      @delete="articleStore.onFetchDate($event.date)"
     />
   </div>
 </template>
@@ -40,6 +44,29 @@ import { Article } from '~~/src/databases/models/Article'
 definePageMeta({ title: '日記' })
 
 const articleStore = useArticleStore()
+
+/// ////////////////////////////////////////////////////////////
+
+const infiniteRef = ref()
+
+onMounted(async () => {
+  // データ取得
+  await articleStore.onFetchDate(DateTime.local(2022, 12, 15))
+
+  // TL自動更新用
+  useInfiniteScroll(
+    () => infiniteRef.value,
+    () => articleStore.onFetchOldest(),
+    { distance: 10, direction: 'top' },
+  )
+
+  // TL自動更新用
+  useInfiniteScroll(
+    () => infiniteRef.value,
+    () => articleStore.onFetchLatest(),
+    { distance: 10, direction: 'bottom' },
+  )
+})
 
 /// ////////////////////////////////////////////////////////////
 

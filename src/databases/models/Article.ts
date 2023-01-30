@@ -25,6 +25,14 @@ export type FormArticle = Partial<{
   text: string
 }>
 
+export type SearchArticle = Partial<{
+  limit: number
+  before: DateTime
+  after: DateTime
+  canSame: boolean
+  order: 'asc' | 'desc'
+}>
+
 export const formatArticle = (db: DBArticle): Article => {
   return {
     id: db.id as number,

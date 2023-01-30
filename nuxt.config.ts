@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-windicss',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
   ],
 
   vite: {
