@@ -47,10 +47,12 @@
           <template v-for="(day, __) of week" :key="`${_}-${__}`">
             <van-button
               v-bind="day.bind"
-              class="flex-1 !min-w-0"
+              class="flex-1 !min-w-0 !p-0"
               @click="onClickDate(day)"
             >
-              {{ day.label }}
+              <van-badge :dot="day.hasArticle" class="!p-1">
+                {{ day.label }}
+              </van-badge>
             </van-button>
           </template>
         </div>
@@ -65,11 +67,14 @@
 
 <script setup lang="ts">
 import { DateTime, Info } from 'luxon'
+import { ArticleAPI } from '~~/src/apis/ArticleAPI'
+import { Article } from '~~/src/databases/models/Article'
 
 type DateItem = {
   date: DateTime,
   label: string,
   bind: { [key: string]: unknown },
+  hasArticle: boolean,
 }
 
 const props = defineProps<{
@@ -92,7 +97,9 @@ const show = computed({
 const selectedDate = ref<DateTime>()
 
 const onClickDate = (item: DateItem) => {
+  // TODO: 統合しても良い
   selectedDate.value = item.date
+  baseDate.value = item.date
 }
 
 const onMoveMonth = (delta: number) => {
@@ -159,11 +166,15 @@ const monthItems = computed(() => {
         bind.plain = false
       }
 
+      // その日の記事の有無を検索
+      const hasArticle = articleInRanges.value.find(a => ptr.hasSame(a.date, 'day')) !== undefined
+
       // 日付を追加
       week.push({
         date: ptr,
         label: String(ptr.day),
         bind,
+        hasArticle,
       })
 
       // 一日進める
@@ -186,4 +197,21 @@ const weekHeaders = computed(() => {
     })
     .map(i => shorts.at(i))
 })
+
+/// ////////////////////////////////////////////////////////////
+
+const articleInRanges = ref<Article[]>([])
+
+watch(() => baseDate.value, async (after, before) => {
+  // もし月が変わったら読み直す
+  if (!before || !before.hasSame(after, 'month')) {
+    // 一月分のデータを読む出す
+    const range = ranges.value
+    articleInRanges.value = await ArticleAPI.getAll({
+      before: range.end,
+      after: range.start,
+      canSame: true,
+    })
+  }
+}, { immediate: true })
 </script>

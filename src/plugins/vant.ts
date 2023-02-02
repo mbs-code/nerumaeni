@@ -1,5 +1,6 @@
 import {
   ActionSheet,
+  Badge,
   Button,
   Cell,
   CellGroup,
@@ -34,4 +35,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(Icon)
   nuxtApp.vueApp.use(Button)
   nuxtApp.vueApp.use(ActionSheet)
+  nuxtApp.vueApp.use(Badge)
 })
