@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core'
 import { Kysely, Migrator } from 'kysely'
 import { BuildinMigrationProvider } from '~~/src/databases/libs/BuildinMigrationProvider'
 import { CapacitorSqliteDialect } from '~~/src/databases/libs/CapacitorSqliteDialect'
@@ -22,5 +23,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   nuxtApp.provide('migrator', migrator)
 
   await migrator.migrateToLatest()
-  await testSeeder()
+
+  // TODO: web のときだけ seeder を流す (削除する)
+  const platform = Capacitor.getPlatform()
+  if (platform === 'web') {
+    await testSeeder()
+  }
 })
