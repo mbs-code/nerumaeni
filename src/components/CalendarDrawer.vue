@@ -59,7 +59,7 @@
       </div>
 
       <van-button type="primary" block :disabled="!selectedDate" @click="onSelect">
-        選択
+        {{ isSelectArticle ? '選択' : '新規作成' }}
       </van-button>
     </div>
   </van-action-sheet>
@@ -92,6 +92,14 @@ const show = computed({
   set: (value: boolean) => emit('update:modelValue', value),
 })
 
+watch(() => show.value, (val) => {
+  if (val) {
+    // 選択の初期化
+    selectedDate.value = undefined
+    baseDate.value = DateTime.local()
+  }
+})
+
 /// ////////////////////////////////////////////////////////////
 
 const selectedDate = ref<DateTime>()
@@ -120,6 +128,12 @@ const baseDate = ref<DateTime>(DateTime.local()) // 表示している日
 const startWeekday = ref<0 | 2 | 3 | 1 | 4 | 5 | 6>(0) // 週の開始曜日
 
 const title = computed(() => baseDate.value.toFormat('yyyy年M月'))
+const isSelectArticle = computed(() => {
+  if (selectedDate.value) {
+    return Boolean(articleInRanges.value.find(a => selectedDate.value!.hasSame(a.date, 'day')))
+  }
+  return false
+})
 
 const ranges = computed(() => {
   const date = baseDate.value.startOf('month')
@@ -167,7 +181,7 @@ const monthItems = computed(() => {
       }
 
       // その日の記事の有無を検索
-      const hasArticle = articleInRanges.value.find(a => ptr.hasSame(a.date, 'day')) !== undefined
+      const hasArticle = Boolean(articleInRanges.value.find(a => ptr.hasSame(a.date, 'day')))
 
       // 日付を追加
       week.push({
