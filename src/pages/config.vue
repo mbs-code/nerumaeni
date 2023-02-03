@@ -11,11 +11,11 @@
     </div>
 
     <div class="panel flex flex-wrap gap-2">
-      <van-button icon="share-o" type="success" plain @click="filer.share()">
+      <van-button icon="share-o" type="success" plain @click="onBackup">
         日記のバックアップ
       </van-button>
 
-      <van-button icon="description" type="primary" plain @click="onOpenUploader">
+      <van-button icon="description" type="primary" plain @click="onRestore">
         日記の復元
       </van-button>
 
@@ -53,12 +53,28 @@ const onClearDB = () => {
   })
 }
 
-///
+/// ////////////////////////////////////////////////////////////
 
 const uploadRef = ref<HTMLInputElement>()
 
-const onOpenUploader = () => {
-  uploadRef.value?.click()
+const onBackup = () => {
+  showConfirmDialog({
+    title: '日記のバックアップ',
+    message: '全ての日記をファイルに出力します。',
+    confirmButtonText: 'OK',
+  }).then(async () => {
+    await filer.share()
+  })
+}
+
+const onRestore = () => {
+  showConfirmDialog({
+    title: '日記の復元',
+    message: 'ファイルから日記を復元します。\n現在の日記は全て削除されます。\nよろしいですか？',
+    confirmButtonText: 'OK',
+  }).then(() => {
+    uploadRef.value?.click()
+  })
 }
 
 const onUpload = async (e: Event) => {

@@ -53,6 +53,8 @@ export const useFiler = () => {
       .insertInto('articles')
       .values(items)
       .executeTakeFirst()
+
+    // TODO: ローディング対応
   }
 
   const _readFile = (file: File): Promise<string | undefined> => {
