@@ -102,4 +102,18 @@ export class ArticleAPI {
 
     return true
   }
+
+  public static async clear (): Promise<boolean> {
+    const { db } = useDatabase()
+
+    const { numDeletedRows } = await db
+      .deleteFrom('articles')
+      .executeTakeFirst()
+
+    if (Number(numDeletedRows) === 0) {
+      throw new Error('削除に失敗しました。')
+    }
+
+    return true
+  }
 }
