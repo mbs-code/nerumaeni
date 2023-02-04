@@ -1,5 +1,5 @@
 <template>
-  <van-config-provider :theme="theme" :style="{ zoom }">
+  <van-config-provider :theme="theme">
     <div class="h-screen flex flex-col van-doc-theme-dark">
       <van-nav-bar
         :title="title"
@@ -57,7 +57,6 @@ const articleStore = useArticleStore()
 const configStore = useConfigStore()
 
 const theme = computed(() => configStore.config.isDark ? 'dark' : 'light')
-const zoom = computed(() => configStore.config.zoom ?? 1)
 
 /// ////////////////////////////////////////////////////////////
 
@@ -97,4 +96,27 @@ const onSelectedDate = async (date: DateTime) => {
     showArticleEditDialog.value = true
   }
 }
+
+/// ////////////////////////////////////////////////////////////
+
+const zoom = computed(() => configStore.config.zoom ?? 1)
+
+const viewportHeight = computed(() => 100 / zoom.value)
+const scrollHeight = computed(() => `calc(${viewportHeight.value}vh - 96px)`)
+
+useHead({
+  bodyAttrs: {
+    style: () => `zoom: ${zoom.value};`,
+  },
+})
 </script>
+
+<style lang="scss">
+.main {
+  height: v-bind(scrollHeight);
+}
+
+.h-screen {
+  height: v-bind(viewportHeight);
+}
+</style>
