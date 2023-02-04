@@ -27,6 +27,12 @@
         @change="onUpload"
       >
     </div>
+
+    <van-cell center title="ダークモード">
+      <template #right-icon>
+        <van-switch v-model="configStore.config.isDark" />
+      </template>
+    </van-cell>
   </div>
 </template>
 
@@ -37,6 +43,8 @@ import { showConfirmDialog } from 'vant'
 definePageMeta({ title: '設定' })
 
 const articleStore = useArticleStore()
+const configStore = useConfigStore()
+
 const database = useDatabase()
 const filer = useFiler()
 

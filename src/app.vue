@@ -11,13 +11,6 @@
       </van-nav-bar>
 
       <div class="flex-grow">
-        <!-- TODO: ダークモード対応 -->
-        <!-- <van-cell center title="ダークモード">
-          <template #right-icon>
-            <van-switch v-model="isDark" />
-          </template>
-        </van-cell> -->
-
         <NuxtPage />
       </div>
 
@@ -60,10 +53,10 @@ import { Article } from '~~/src/databases/models/Article'
 const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
-const isDark = ref<boolean>(false)
-const theme = computed(() => isDark.value ? 'dark' : 'light')
-
 const articleStore = useArticleStore()
+const configStore = useConfigStore()
+
+const theme = computed(() => configStore.config.isDark ? 'dark' : 'light')
 
 /// ////////////////////////////////////////////////////////////
 
