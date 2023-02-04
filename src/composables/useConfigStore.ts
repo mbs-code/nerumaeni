@@ -16,7 +16,7 @@ export const useConfigStore = defineStore('configs', () => {
     // ファイルを読み込む
     const file = await Filesystem.readFile({
       path: filename,
-      directory: Directory.Data,
+      directory: Directory.External,
       encoding: Encoding.UTF8,
     })
 
@@ -30,7 +30,7 @@ export const useConfigStore = defineStore('configs', () => {
     await Filesystem.writeFile({
       path: filename,
       data: JSON.stringify(config.value),
-      directory: Directory.Data,
+      directory: Directory.External,
       encoding: Encoding.UTF8,
       recursive: true,
     })
@@ -41,19 +41,23 @@ export const useConfigStore = defineStore('configs', () => {
   ///
 
   onMounted(async () => {
-    isLoading.value = true
+    try {
+      isLoading.value = true
 
-    await load()
-
-    isLoading.value = false
+      await load()
+    } finally {
+      isLoading.value = false
+    }
   })
 
   watch(() => config.value, async () => {
-    if (!isLoading.value) {
+    if (isLoading.value) { return }
+
+    try {
       isLoading.value = true
 
       await save()
-
+    } finally {
       isLoading.value = false
     }
   }, { deep: true })
