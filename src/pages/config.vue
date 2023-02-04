@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <div class="panel">
-      config
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>ダークモード</span>
+      <van-switch v-model="configStore.config.isDark" />
     </div>
 
-    <div class="panel">
-      <van-button icon="warn-o" type="danger" plain @click="onClearDB">
-        データの初期化
-      </van-button>
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>ズーム率</span>
+      <DigitForm v-model="configStore.config.zoom" />
     </div>
 
     <div class="panel flex flex-wrap gap-2">
@@ -28,14 +28,10 @@
       >
     </div>
 
-    <div class="panel flex items-center justify-between flex-wrap">
-      <span>ダークモード</span>
-      <van-switch v-model="configStore.config.isDark" />
-    </div>
-
-    <div class="panel flex items-center justify-between flex-wrap">
-      <span>ズーム率</span>
-      <DigitForm v-model="configStore.config.zoom" />
+    <div class="panel">
+      <van-button icon="warn-o" type="danger" plain @click="onClearDB">
+        データの初期化
+      </van-button>
     </div>
   </div>
 </template>
