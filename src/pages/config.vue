@@ -28,11 +28,10 @@
       >
     </div>
 
-    <van-cell center title="ダークモード">
-      <template #right-icon>
-        <van-switch v-model="configStore.config.isDark" />
-      </template>
-    </van-cell>
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>ダークモード</span>
+      <van-switch v-model="configStore.config.isDark" />
+    </div>
   </div>
 </template>
 
