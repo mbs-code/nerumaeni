@@ -32,6 +32,11 @@
       <span>ダークモード</span>
       <van-switch v-model="configStore.config.isDark" />
     </div>
+
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>ズーム率</span>
+      <DigitForm v-model="configStore.config.zoom" />
+    </div>
   </div>
 </template>
 

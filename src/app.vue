@@ -1,5 +1,5 @@
 <template>
-  <van-config-provider :theme="theme">
+  <van-config-provider :theme="theme" :style="{ zoom }">
     <div class="h-screen flex flex-col van-doc-theme-dark">
       <van-nav-bar
         :title="title"
@@ -57,6 +57,7 @@ const articleStore = useArticleStore()
 const configStore = useConfigStore()
 
 const theme = computed(() => configStore.config.isDark ? 'dark' : 'light')
+const zoom = computed(() => configStore.config.zoom ?? 1)
 
 /// ////////////////////////////////////////////////////////////
 
