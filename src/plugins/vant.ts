@@ -2,7 +2,6 @@ import {
   ActionSheet,
   Badge,
   Button,
-  Cell,
   CellGroup,
   ConfigProvider,
   Field,
@@ -24,11 +23,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(NavBar)
   nuxtApp.vueApp.use(Tabbar)
   nuxtApp.vueApp.use(TabbarItem)
-  nuxtApp.vueApp.use(Cell)
   nuxtApp.vueApp.use(CellGroup)
   nuxtApp.vueApp.use(Switch)
   nuxtApp.vueApp.use(Rate)
-  nuxtApp.vueApp.use(CellGroup)
   nuxtApp.vueApp.use(Field)
   nuxtApp.vueApp.use(Popup)
   nuxtApp.vueApp.use(NavBar)

@@ -28,6 +28,9 @@ export const useArticleStore = defineStore('articles', () => {
 
   /** 特定の日を中心に取得 */
   const onFetchDate = async (date: DateTime) => {
+    // 値を初期化する
+    articles.value = []
+
     await _fetch({ before: date, order: 'desc', canSame: true }) // 上側を取得
     await _fetch({ after: date, order: 'asc' }) // 下側を取得
 

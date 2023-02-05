@@ -324,10 +324,20 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/filesystem@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@capacitor/filesystem/-/filesystem-4.1.4.tgz#021ef707ca199d554042ebc85151416dec07020a"
+  integrity sha512-ivko1RNK4hq63xhMacq8D6D97N5/SAafTsrmY/pghYrG6Cl2SEY0+IgRu7V9/VWeN3FSplyUPucjUTAFQxXN5g==
+
 "@capacitor/ios@^4.6.2":
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-4.6.2.tgz#e0266a1998912b5e552c967c6053dc7c5d9d2851"
   integrity sha512-3hQzbAOk+drCLyFjnytvkc20Mr077/9tQrv6iTghDXESDGR6EgcaYUXzKdVwuJscb0R459+5UQ2mYtkx6ES4TQ==
+
+"@capacitor/share@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-4.1.0.tgz#00e2b9dcd86a7a9691fc758ffbffe65b884b3253"
+  integrity sha512-Gh/cgy7Ee+9fkhw+Q4+9s2S4HiC34/eLoaohqRg1ahtpqvTQ3qdInoEJ23FdILq5cLj2ZPpx2VuEXjpLKX1Z5A==
 
 "@cloudflare/kv-asset-handler@^0.3.0":
   version "0.3.0"
