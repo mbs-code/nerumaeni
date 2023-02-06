@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export type Config = {
   isDark: boolean
   zoom: number
+  startHour: number
 }
 
 const filename = 'config.json'

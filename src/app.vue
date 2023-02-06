@@ -66,7 +66,8 @@ const selectedDateTime = ref<DateTime>(DateTime.now())
 
 const openTodayArticleDialog = async () => {
   // 今日の記事を探す
-  const now = DateTime.now().startOf('day')
+  const padHour = configStore.config.startHour ?? 0
+  const now = DateTime.now().minus({ hour: padHour }).startOf('day')
   const article = await ArticleAPI.getByDate(now)
 
   selectedArticle.value = article

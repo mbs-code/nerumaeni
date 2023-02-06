@@ -10,6 +10,11 @@
       <DigitForm v-model="configStore.config.zoom" />
     </div>
 
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>日付を変更する時間</span>
+      <HourForm v-model="configStore.config.startHour" />
+    </div>
+
     <div class="panel flex flex-wrap gap-2">
       <van-button icon="share-o" type="success" plain @click="onBackup">
         日記のバックアップ

@@ -3,7 +3,7 @@
     <van-button
       icon="arrow-left"
       size="small"
-      @click="onDelta(-0.05)"
+      @click="onDelta(-1)"
     />
 
     <div class="w-3rem text-center">
@@ -13,7 +13,7 @@
     <van-button
       icon="arrow"
       size="small"
-      @click="onDelta(0.05)"
+      @click="onDelta(1)"
     />
   </div>
 </template>
@@ -34,16 +34,16 @@ const value = computed({
 })
 
 const label = computed(() => {
-  return Math.round(value.value * 100) + '%'
+  return value.value + ' 時'
 })
 
 ///
 
 const onDelta = (delta: number) => {
   let number = value.value + delta
-  if (number < 0.5) { number = 0.5 }
-  if (number > 2) { number = 2 }
+  if (number <= -1) { number = 23 }
+  if (number >= 24) { number = 0 }
 
-  value.value = Math.round(number * 100) / 100
+  value.value = number
 }
 </script>
