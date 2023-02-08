@@ -44,14 +44,17 @@ import { Article } from '~~/src/databases/models/Article'
 definePageMeta({ title: '日記' })
 
 const articleStore = useArticleStore()
+const configStore = useConfigStore()
 
 /// ////////////////////////////////////////////////////////////
 
 const infiniteRef = ref()
 
 onMounted(async () => {
-  // データ取得
-  await articleStore.onFetchDate(DateTime.local(2022, 12, 15))
+  // 今日の記事を探す
+  const padHour = configStore.config.startHour ?? 0
+  const now = DateTime.now().minus({ hour: padHour }).startOf('day')
+  await articleStore.onFetchDate(now)
 
   // TL自動更新用
   useInfiniteScroll(
