@@ -4,6 +4,11 @@ import { defineStore } from 'pinia'
 export type Config = {
   isDark: boolean
   zoom: number
+  showAlone: boolean
+  startHour: number
+
+  canNotify: boolean
+  notifyHour: number
 }
 
 const filename = 'config.json'
@@ -12,7 +17,7 @@ export const useConfigStore = defineStore('configs', () => {
   const isLoading = ref<boolean>(false)
   const config = ref<Partial<Config>>({})
 
-  const load = async () => {
+  const _load = async () => {
     // ファイルを読み込む
     const file = await Filesystem.readFile({
       path: filename,
@@ -23,9 +28,10 @@ export const useConfigStore = defineStore('configs', () => {
     // TODO: ローディング、バリデなど
 
     config.value = JSON.parse(file.data)
+    console.log('load')
   }
 
-  const save = async () => {
+  const _save = async () => {
     // ファイルを書き出す
     await Filesystem.writeFile({
       path: filename,
@@ -36,35 +42,39 @@ export const useConfigStore = defineStore('configs', () => {
     })
 
     // TODO: ローディングなど
+    console.log('save')
   }
 
-  ///
+  /// ////////////////////////////////////////////////////////////
 
-  onMounted(async () => {
+  watch(() => config.value, async () => await onSave(), { deep: true })
+
+  const onLoad = async () => {
     try {
       isLoading.value = true
 
-      await load()
+      await _load()
     } finally {
       isLoading.value = false
     }
-  })
+  }
 
-  watch(() => config.value, async () => {
+  const onSave = async () => {
     if (isLoading.value) { return }
 
     try {
       isLoading.value = true
 
-      await save()
+      await _save()
     } finally {
       isLoading.value = false
     }
-  }, { deep: true })
+  }
 
   return {
     config,
 
-    save,
+    onLoad,
+    onSave,
   }
 })

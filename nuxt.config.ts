@@ -12,6 +12,11 @@ export default defineNuxtConfig({
     '~~/src/assets/css/main.scss',
   ],
 
+  components: [{
+    path: '~/components/',
+    pathPrefix: false,
+  }],
+
   modules: [
     'nuxt-windicss',
     '@pinia/nuxt',

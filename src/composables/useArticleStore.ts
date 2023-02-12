@@ -4,6 +4,12 @@ import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { Article, SearchArticle } from '~~/src/databases/models/Article'
 
 export const useArticleStore = defineStore('articles', () => {
+  const configStore = useConfigStore()
+
+  const showAlone = computed(() => configStore.config.showAlone)
+
+  /// ////////////////////////////////////////////////////////////
+
   const articles = ref<Article[]>([])
 
   const _fetch = async (search?: SearchArticle) => {
@@ -31,6 +37,13 @@ export const useArticleStore = defineStore('articles', () => {
     // 値を初期化する
     articles.value = []
 
+    // 取得モードがaloneなら、単独取得
+    if (showAlone.value) {
+      const article = await ArticleAPI.getByDate(date)
+      if (article) { articles.value = [article] }
+      return
+    }
+
     await _fetch({ before: date, order: 'desc', canSame: true }) // 上側を取得
     await _fetch({ after: date, order: 'asc' }) // 下側を取得
 
@@ -50,6 +63,9 @@ export const useArticleStore = defineStore('articles', () => {
 
   /** より古いものを取得 */
   const onFetchOldest = async () => {
+    // 取得モードがalobeなら何もしない
+    if (showAlone.value) { return }
+
     const oldest = articles.value[0]
     await _fetch({ before: oldest.date, order: 'desc' }) // 上側を取得
 
@@ -65,6 +81,9 @@ export const useArticleStore = defineStore('articles', () => {
 
   /** より新しいものを取得 */
   const onFetchLatest = async () => {
+    // 取得モードがalobeなら何もしない
+    if (showAlone.value) { return }
+
     const latest = articles.value[articles.value.length - 1]
     await _fetch({ after: latest.date, order: 'asc' }) // 下側を取得
 

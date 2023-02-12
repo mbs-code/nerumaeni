@@ -66,7 +66,8 @@ const selectedDateTime = ref<DateTime>(DateTime.now())
 
 const openTodayArticleDialog = async () => {
   // 今日の記事を探す
-  const now = DateTime.now().startOf('day')
+  const padHour = configStore.config.startHour ?? 0
+  const now = DateTime.now().minus({ hour: padHour }).startOf('day')
   const article = await ArticleAPI.getByDate(now)
 
   selectedArticle.value = article
@@ -98,6 +99,8 @@ const onSelectedDate = async (date: DateTime) => {
 }
 
 /// ////////////////////////////////////////////////////////////
+// ズーム率監視
+/// ////////////////////////////////////////////////////////////
 
 const zoom = computed(() => configStore.config.zoom ?? 1)
 
@@ -108,6 +111,16 @@ useHead({
   bodyAttrs: {
     style: () => `zoom: ${zoom.value};`,
   },
+})
+
+/// ////////////////////////////////////////////////////////////
+// アラーム監視
+/// ////////////////////////////////////////////////////////////
+
+const notify = useNotify()
+
+watch(() => [configStore.config.canNotify, configStore.config.notifyHour], async () => {
+  await notify.reset()
 })
 </script>
 

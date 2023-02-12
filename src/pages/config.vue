@@ -6,9 +6,29 @@
     </div>
 
     <div class="panel flex items-center justify-between flex-wrap">
+      <span>単日表示</span>
+      <van-switch v-model="configStore.config.showAlone" />
+    </div>
+
+    <div class="panel flex items-center justify-between flex-wrap">
       <span>ズーム率</span>
       <DigitForm v-model="configStore.config.zoom" />
     </div>
+
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>日付を変更する時間</span>
+      <HourForm v-model="configStore.config.startHour" />
+    </div>
+
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>アラーム</span>
+      <div class="flex gap-8 flex-wrap">
+        <van-switch v-model="configStore.config.canNotify" />
+        <HourForm v-model="configStore.config.notifyHour" :disabled="!configStore.config.canNotify" />
+      </div>
+    </div>
+
+    <van-divider class="px-4 py-2" />
 
     <div class="panel flex flex-wrap gap-2">
       <van-button icon="share-o" type="success" plain @click="onBackup">
