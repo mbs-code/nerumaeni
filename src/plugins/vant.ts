@@ -4,6 +4,7 @@ import {
   Button,
   CellGroup,
   ConfigProvider,
+  Divider,
   Field,
   Icon,
   Locale,
@@ -33,4 +34,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(Button)
   nuxtApp.vueApp.use(ActionSheet)
   nuxtApp.vueApp.use(Badge)
+  nuxtApp.vueApp.use(Divider)
 })
