@@ -5,6 +5,9 @@ export type Config = {
   isDark: boolean
   zoom: number
   startHour: number
+
+  canNotify: boolean
+  notifyHour: number
 }
 
 const filename = 'config.json'

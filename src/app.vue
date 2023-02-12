@@ -99,6 +99,8 @@ const onSelectedDate = async (date: DateTime) => {
 }
 
 /// ////////////////////////////////////////////////////////////
+// ズーム率監視
+/// ////////////////////////////////////////////////////////////
 
 const zoom = computed(() => configStore.config.zoom ?? 1)
 
@@ -109,6 +111,16 @@ useHead({
   bodyAttrs: {
     style: () => `zoom: ${zoom.value};`,
   },
+})
+
+/// ////////////////////////////////////////////////////////////
+// アラーム監視
+/// ////////////////////////////////////////////////////////////
+
+const notify = useNotify()
+
+watch(() => [configStore.config.canNotify, configStore.config.notifyHour], async () => {
+  await notify.reset()
 })
 </script>
 

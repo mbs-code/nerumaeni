@@ -3,16 +3,21 @@
     <van-button
       icon="arrow-left"
       size="small"
+      :disabled="disabled"
       @click="onDelta(-1)"
     />
 
-    <div class="w-3rem text-center">
+    <div
+      class="w-3rem text-center"
+      :class="{ 'text-gray-500 cursor-not-allowed': disabled }"
+    >
       {{ label }}
     </div>
 
     <van-button
       icon="arrow"
       size="small"
+      :disabled="disabled"
       @click="onDelta(1)"
     />
   </div>
@@ -21,6 +26,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   modelValue?: number,
+  disabled?: boolean,
 }>()
 
 // eslint-disable-next-line func-call-spacing

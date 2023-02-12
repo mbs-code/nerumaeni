@@ -15,6 +15,14 @@
       <HourForm v-model="configStore.config.startHour" />
     </div>
 
+    <div class="panel flex items-center justify-between flex-wrap">
+      <span>アラーム</span>
+      <div class="flex gap-8 flex-wrap">
+        <van-switch v-model="configStore.config.canNotify" />
+        <HourForm v-model="configStore.config.notifyHour" :disabled="!configStore.config.canNotify" />
+      </div>
+    </div>
+
     <div class="panel flex flex-wrap gap-2">
       <van-button icon="share-o" type="success" plain @click="onBackup">
         日記のバックアップ
