@@ -35,9 +35,9 @@
     />
 
     <ArticleEditDialog
-      v-model="showArticleEditDialog"
-      :article="selectedArticle"
-      :date-time="selectedDateTime"
+      v-model="articleDialogStore.showDialog"
+      :article="articleDialogStore.selectedArticle"
+      :date-time="articleDialogStore.selectedDateTime"
       @save="articleStore.onFetchDate($event.date)"
       @delete="articleStore.onFetchDate($event.date)"
     />
@@ -47,6 +47,7 @@
 <script setup lang='ts'>
 import { DateTime } from 'luxon'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
+import { useArticleDialogStore } from '~~/src/composables/useArticleDialogStore'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
 import { Article } from '~~/src/databases/models/Article'
 
@@ -54,6 +55,7 @@ const route = useRoute()
 const title = computed(() => route.meta.title as string)
 
 const articleStore = useArticleStore()
+const articleDialogStore = useArticleDialogStore()
 const configStore = useConfigStore()
 
 const theme = computed(() => configStore.config.isDark ? 'dark' : 'light')
@@ -70,9 +72,7 @@ const openTodayArticleDialog = async () => {
   const now = DateTime.now().minus({ hour: padHour }).startOf('day')
   const article = await ArticleAPI.getByDate(now)
 
-  selectedArticle.value = article
-  selectedDateTime.value = now
-  showArticleEditDialog.value = true
+  articleDialogStore.open(article, now)
 }
 
 /// ////////////////////////////////////////////////////////////
