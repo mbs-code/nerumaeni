@@ -35,9 +35,9 @@
     />
 
     <ArticleEditDialog
-      v-model="showArticleEditDialog"
-      :article="selectedArticle"
-      :date-time="selectedDateTime"
+      v-model="articleDialogStore.showDialog"
+      :article="articleDialogStore.selectedArticle"
+      :date-time="articleDialogStore.selectedDateTime"
       @save="articleStore.onFetchDate($event.date)"
       @delete="articleStore.onFetchDate($event.date)"
     />
@@ -46,18 +46,24 @@
 
 <script setup lang='ts'>
 import { DateTime } from 'luxon'
+import { App as CapacitorApp } from '@capacitor/app'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
+import { useArticleDialogStore } from '~~/src/composables/useArticleDialogStore'
 import { useArticleStore } from '~~/src/composables/useArticleStore'
 import { Article } from '~~/src/databases/models/Article'
 
 const route = useRoute()
+const router = useRouter()
 const title = computed(() => route.meta.title as string)
 
 const articleStore = useArticleStore()
+const articleDialogStore = useArticleDialogStore()
 const configStore = useConfigStore()
 
 const theme = computed(() => configStore.config.isDark ? 'dark' : 'light')
 
+/// ////////////////////////////////////////////////////////////
+// Article ダイアログ管理
 /// ////////////////////////////////////////////////////////////
 
 const showArticleEditDialog = ref<boolean>(false)
@@ -70,11 +76,11 @@ const openTodayArticleDialog = async () => {
   const now = DateTime.now().minus({ hour: padHour }).startOf('day')
   const article = await ArticleAPI.getByDate(now)
 
-  selectedArticle.value = article
-  selectedDateTime.value = now
-  showArticleEditDialog.value = true
+  articleDialogStore.open(article, now)
 }
 
+/// ////////////////////////////////////////////////////////////
+// Calendar ドロワー管理
 /// ////////////////////////////////////////////////////////////
 
 const showCalendarDrawer = ref<boolean>(false)
@@ -97,6 +103,40 @@ const onSelectedDate = async (date: DateTime) => {
     showArticleEditDialog.value = true
   }
 }
+
+/// ////////////////////////////////////////////////////////////
+// android 戻るボタン管理
+/// ////////////////////////////////////////////////////////////
+
+onMounted(() => {
+  CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+    // ダイアログが開いてたら閉じる
+    if (articleDialogStore.showDialog) {
+      articleDialogStore.showDialog = false
+      return
+    }
+
+    // カレンダーが開いてたら閉じる
+    if (showCalendarDrawer.value) {
+      showCalendarDrawer.value = false
+      return
+    }
+
+    // もし URL が index でないなら移動
+    console.log(route)
+    if (route.name !== 'index') {
+      router.replace({ name: 'index' })
+      return
+    }
+
+    // それ以外は capacitor に従う
+    if (!canGoBack) {
+      CapacitorApp.exitApp()
+    } else {
+      window.history.back()
+    }
+  })
+})
 
 /// ////////////////////////////////////////////////////////////
 // ズーム率監視

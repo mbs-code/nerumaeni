@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import { DateTime } from 'luxon'
 import { showConfirmDialog } from 'vant'
+import { App as CapacitorApp } from '@capacitor/app'
 import { ArticleAPI } from '~~/src/apis/ArticleAPI'
 import { Article, FormArticle } from '~~/src/databases/models/Article'
 
