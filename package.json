@@ -7,6 +7,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint src/**/*.{js,ts,vue}",
+    "icon": "capacitor-assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'",
     "android": "yarn generate && cap sync && cap copy && cap run android"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
   "dependencies": {
     "@capacitor-community/sqlite": "^4.6.1-2",
     "@capacitor/android": "^4.6.2",
+    "@capacitor/assets": "^2.0.4",
     "@capacitor/core": "^4.6.2",
     "@capacitor/filesystem": "^4.1.4",
     "@capacitor/ios": "^4.6.2",
