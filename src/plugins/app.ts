@@ -1,5 +1,11 @@
+import { Capacitor } from '@capacitor/core'
+
 export default defineNuxtPlugin(async () => {
-  // 設定読み込み
-  const configStore = useConfigStore()
-  await configStore.onLoad()
+  // web 以外なら設定読み込み
+  const platform = Capacitor.getPlatform()
+
+  if (platform !== 'web') {
+    const configStore = useConfigStore()
+    await configStore.onLoad()
+  }
 })
